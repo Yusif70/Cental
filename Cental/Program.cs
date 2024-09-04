@@ -1,3 +1,8 @@
+using Cental.Context;
+using Cental.Repositories;
+using Cental.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
 namespace Cental
 {
     public class Program
@@ -9,6 +14,12 @@ namespace Cental
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+
+            builder.Services.AddDbContext<CarRentDBContext>(opt =>
+            {
+                opt.UseSqlServer("Server=DESKTOP-MNIP7P0;Database=CarRent;Integrated Security=True;Encrypt=False");
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,10 +36,22 @@ namespace Cental
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                    name: "admin",
+                    pattern: "admin/{controller=Home}/{action=Index}/{id?}",
+                    areaName: "admin"
+                );
+                endpoints.MapControllerRoute(
+                    name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
+            });
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

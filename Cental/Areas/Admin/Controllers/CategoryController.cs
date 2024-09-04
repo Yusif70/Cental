@@ -1,0 +1,64 @@
+﻿using Cental.Models;
+using Cental.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace Cental.Areas.Admin.Controllers
+{
+    [Area(areaName: "Admin")]
+    public class CategoryController : Controller
+    {
+        private readonly IRepository<Category> _repository;
+        public CategoryController(IRepository<Category> repository)
+        {
+            _repository = repository;
+        }
+        public async Task<IActionResult> Index()
+        {
+            List<Category> categories = await _repository.GetAll().Include(c=>c.Blogs).ToListAsync();
+            return View(categories);
+        }
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                category.CreatedAt = DateTime.Now;
+                await _repository.AddAsync(category);
+                await _repository.SaveAsync();
+                return RedirectToAction("index");
+            }
+            return View();
+        }
+        public async Task<IActionResult> Update(int id)
+        {
+            Category category = await _repository.GetAsync(id);
+            return View(category);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, Category category)
+        {
+            Category updatedCategory = await _repository.GetAsync(id);
+            if (ModelState.IsValid)
+            {
+                updatedCategory.Name = category.Name;
+                updatedCategory.LastUpdatedAt = DateTime.Now;
+                _repository.Update(category);
+                await _repository.SaveAsync();
+                return RedirectToAction("index");
+            }
+            return View();
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            Category category = await _repository.GetAsync(id);
+            _repository.Remove(category);
+            await _repository.SaveAsync();
+            return RedirectToAction("index");
+        }
+    }
+}

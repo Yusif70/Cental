@@ -1,0 +1,34 @@
+﻿@model List<Cental.Models.Tag>
+
+<div class="container-fluid p-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tag in Model)
+            {
+                <tr>
+                    <th scope="row">@tag.Id</th>
+                    <td>@tag.Name</td>
+                    <td>
+                        <a asp-action="update" asp-controller="tag" asp-route-id="@tag.Id" class="text-warning">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="delete" asp-controller="tag" asp-route-id="@tag.Id">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="add" asp-controller="tag" class="btn btn-primary w-100">Add</a>
+</div>

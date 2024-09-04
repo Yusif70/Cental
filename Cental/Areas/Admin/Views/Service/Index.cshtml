@@ -1,0 +1,37 @@
+﻿@model List<Cental.Models.Service>
+<div class="container-fluid p-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Icon</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model)
+            {
+                <tr>
+                    <th scope="row">@service.Id</th>
+                    <td>@service.Title</td>
+                    <td>@service.Description</td>
+                    <td><i class="@service.Icon"></i></td>
+                    <td>
+                        <a asp-action="update" asp-controller="service" asp-route-id="@service.Id" class="text-warning">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="delete" asp-controller="service" asp-route-id="@service.Id">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="add" asp-controller="service" class="btn btn-primary w-100">Add</a>
+</div>

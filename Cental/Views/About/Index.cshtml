@@ -1,4 +1,9 @@
-﻿<!-- Header Start -->
+﻿@model List<Cental.Models.Employee>
+
+@{
+    double delay = 0.1;
+}
+<!-- Header Start -->
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
         <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">About Us</h4>
@@ -259,7 +264,32 @@
             </p>
         </div>
         <div class="row g-4">
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
+            @foreach (Cental.Models.Employee employee in Model)
+            {
+                string delayString = delay + "s";
+                <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay=@delayString>
+                    <div class="team-item p-4 pt-0">
+                        <div class="team-img">
+                            <img src="~/admin/images/employees/@employee.Image" class="img-fluid rounded w-100" alt="Image">
+                        </div>
+                        <div class="team-content pt-4">
+                            <h4>@employee.Name @employee.Surname</h4>
+                            <p>@employee.Profession</p>
+                            <div class="team-icon d-flex justify-content-center">
+                                <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-square btn-light rounded-circle mx-1" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (delay == 0.7)
+                    delay = 0.1;
+                else
+                    delay += 0.2;
+            }
+            @* <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="team-item p-4 pt-0">
                     <div class="team-img">
                         <img src="~/img/team-1.jpg" class="img-fluid rounded w-100" alt="Image">
@@ -326,7 +356,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> *@
         </div>
     </div>
 </div>

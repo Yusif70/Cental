@@ -1,0 +1,28 @@
+﻿@model Cental.Models.Employee
+
+<div class="container-fluid pt-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Name" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Name">Name</label>
+            <span asp-validation-for="Name" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Surname" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Surname">Surname</label>
+            <span asp-validation-for="Surname" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Profession" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Profession">Profession</label>
+            <span asp-validation-for="Profession" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="File" class="form-label">
+                Image
+            </label>
+            <input type="file" asp-for="File" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary float-end">Submit</button>
+    </form>
+</div>

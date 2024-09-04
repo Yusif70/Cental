@@ -1,0 +1,77 @@
+﻿@using Cental.Models
+@model Cental.Models.Blog
+
+<div class="container-fluid pt-4">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Title2" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Title1">Title1</label>
+            <span asp-validation-for="Title1" class="text-danger-small text-danger" ></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Description2" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Description1">Description1</label>
+            <span asp-validation-for="Description1" class="text-danger-small text-danger" ></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Title1" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Title2">Title2</label>
+            <span asp-validation-for="Title2" class="text-danger-small text-danger" ></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Description1" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Description2">Description2</label>
+            <span asp-validation-for="Description2" class="text-danger-small text-danger" ></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="File" class="form-label">
+                Image
+            </label>
+            <input type="file" asp-for="File" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="AuthorId">Author</label>
+            <select asp-for="AuthorId" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option disabled selected>Select an author</option>
+                @if (ViewBag.Authors is not null)
+                {
+                    @foreach (Author author in ViewBag.Authors)
+                    {
+                        <option value="@author.Id">@author.Name @author.Surname</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="AuthorId" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="CategoryId">Category</label>
+            <select asp-for="CategoryId" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <option disabled selected>Select categories</option>
+                @if (ViewBag.Categories is not null)
+                {
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="TagIds" class="form-label">Tags</label>
+            <select asp-for="TagIds" multiple class="form-select" aria-label="Default select example">
+                <option disabled selected>Select Tags</option>
+                @if (ViewBag.Tags is not null)
+                {
+                    @foreach (Tag tag in ViewBag.Tags)
+                    {
+                        <option value="@tag.Id">@tag.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="TagIds" class="text-danger-small text-danger"></span>
+        </div>
+        <a asp-action="index" asp-controller="blog" type="button" class="btn btn-secondary text-danger float-end m-2">Cancel</a>
+        <button type="submit" class="btn btn-primary float-end mt-2">Save</button>
+    </form>
+</div>

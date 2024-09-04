@@ -1,0 +1,45 @@
+﻿@model Cental.Models.Service
+
+<div class="container-fluid pt-4">
+    <form method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control border-1 border-secondary" placeholder="xxxxxxx" asp-for="Title">
+            <label asp-for="Title">Title</label>
+            <span class="text-danger-small text-danger" asp-validation-for="Title"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control border-1 border-secondary" placeholder="xxx" asp-for="Description">
+            <label asp-for="Description">Description</label>
+            <span class="text-danger-small text-danger" asp-validation-for="Description"></span>
+        </div>
+        <div class="mb-3">
+            <label>Select an icon</label>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-phone-alt" checked />
+                <i class="fa fa-phone-alt"></i>
+            </div>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-money-bill-alt" />
+                <i class="fa fa-money-bill-alt"></i>
+            </div>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-road" />
+                <i class="fa fa-road"></i>
+            </div>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-umbrella" />
+                <i class="fa fa-umbrella"></i>
+            </div>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-building" />
+                <i class="fa fa-building"></i>
+            </div>
+            <div class="form-check">
+                <input type="radio" asp-for="Icon" value="fa fa-car-alt" />
+                <i class="fa fa-car-alt"></i>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary float-end">Submit</button>
+    </form>
+</div>

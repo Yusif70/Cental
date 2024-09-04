@@ -8,5 +8,9 @@ namespace Cental.Controllers
         {
             return View();
         }
+        public IActionResult Detail()
+        {
+            return View();
+        }
     }
 }
