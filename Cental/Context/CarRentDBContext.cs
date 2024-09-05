@@ -13,19 +13,16 @@ namespace Cental.Context
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BlogsTags> BlogsTags { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Blog>()
-                .HasOne(b => b.Category)
-                .WithMany(c => c.Blogs)
-                .HasForeignKey(b => b.CategoryId)
-                .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Blog>()
-                .HasOne(b => b.Author)
-                .WithMany(a=>a.Blogs)
-                .HasForeignKey(b=>b.AuthorId)
-                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Tag>()
+                .HasIndex(t => t.Name)
+                .IsUnique(true);
+            modelBuilder.Entity<Category>()
+                .HasIndex(c=>c.Name)
+                .IsUnique(true);
         }
     }
 }

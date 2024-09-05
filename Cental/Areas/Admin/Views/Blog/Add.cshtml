@@ -1,5 +1,4 @@
-﻿@using Cental.Models
-@model Cental.Models.Blog
+﻿@model Blog
 
 <div class="container-fluid pt-4">
     <form method="post" enctype="multipart/form-data">
@@ -22,6 +21,11 @@
             <input type="text" asp-for="Description2" class="form-control border-1 border-secondary" placeholder="xxx">
             <label asp-for="Description2">Description2</label>
             <span asp-validation-for="Description2" class="text-danger-small text-danger"></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Paragraph" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Paragraph">Paragraph</label>
+            <span asp-validation-for="Paragraph" class="text-danger-small text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="File" class="form-label">

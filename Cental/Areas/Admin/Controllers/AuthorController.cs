@@ -54,7 +54,7 @@ namespace Cental.Areas.Admin.Controllers
         public async Task<IActionResult> Update(int id, Author author)
         {
             Author updatedAuthor = await _repository.GetAsync(id);
-            string basePath = _webHostEnvironment + "/admin/images/authors/" + updatedAuthor.Image;
+            string basePath = _webHostEnvironment.WebRootPath + "/admin/images/authors/" + updatedAuthor.Image;
             if (ModelState.IsValid)
             {
                 if (updatedAuthor.Image != "defaultPfp.png")
@@ -71,8 +71,9 @@ namespace Cental.Areas.Admin.Controllers
                 }
                 updatedAuthor.Name = author.Name;
                 updatedAuthor.Surname = author.Surname;
+                updatedAuthor.Description = author.Description;
                 updatedAuthor.LastUpdatedAt = DateTime.Now;
-                _repository.Update(author);
+                _repository.Update(updatedAuthor);
                 await _repository.SaveAsync();
                 return RedirectToAction("index");
             }

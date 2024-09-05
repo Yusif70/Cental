@@ -62,6 +62,7 @@ namespace Cental.Areas.Admin.Controllers
                         TagId = tagId,
                     });
                 }
+
                 await _repository.SaveAsync();
                 return RedirectToAction("index");
             }
@@ -75,13 +76,14 @@ namespace Cental.Areas.Admin.Controllers
             ViewBag.Authors = await _authorRepository.GetAll().ToListAsync();
             ViewBag.Categories = await _categoryRepository.GetAll().ToListAsync();
             ViewBag.Tags = await _tagRepository.GetAll().ToListAsync();
-            Blog blog = await _repository.GetAsync(id);
+            Blog blog = await _blogRepository.GetAll().Include(b => b.BlogsTags)!.ThenInclude(bt => bt.Tag).FirstAsync(b => b.Id == id);
+            blog.TagIds = blog.BlogsTags!.Select(bt => bt.TagId).ToList();
             return View(blog);
         }
         [HttpPost]
         public async Task<IActionResult> Update(int id, Blog blog)
         {
-            Blog updatedBlog = await _repository.GetAsync(id);
+            Blog updatedBlog = await _repository.GetAll().Include(b => b.BlogsTags).FirstAsync(b => b.Id == id);
             string basePath = _webHostEnvironment.WebRootPath + "/admin/images/blogs/" + updatedBlog.Image;
             if (ModelState.IsValid)
             {
@@ -101,11 +103,29 @@ namespace Cental.Areas.Admin.Controllers
                 updatedBlog.Title2 = blog.Title2;
                 updatedBlog.Description1 = blog.Description1;
                 updatedBlog.Description2 = blog.Description2;
+                updatedBlog.Paragraph = blog.Paragraph;
                 updatedBlog.AuthorId = blog.AuthorId;
                 updatedBlog.CategoryId = blog.CategoryId;
-                updatedBlog.TagIds = blog.TagIds;
+                foreach (int tagId in blog.TagIds)
+                {
+                    if (!updatedBlog.BlogsTags!.Any(bt => bt.TagId == tagId))
+                    {
+                        await _blogsTagsRepository.AddAsync(new BlogsTags()
+                        {
+                            BlogId = blog.Id,
+                            TagId = tagId
+                        });
+                    }
+                }
+                foreach (BlogsTags item in updatedBlog.BlogsTags!)
+                {
+                    if (!blog.TagIds.Any(tagId => tagId == item.TagId))
+                    {
+                        await _blogsTagsRepository.RemoveAsync(item.Id);
+                    }
+                }
                 updatedBlog.LastUpdatedAt = DateTime.Now;
-                _repository.Update(blog);
+                _repository.Update(updatedBlog);
                 await _repository.SaveAsync();
                 return RedirectToAction("index");
             }

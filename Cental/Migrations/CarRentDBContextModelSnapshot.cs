@@ -22,7 +22,7 @@ namespace Cental.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Cental.Models.Author", b =>
+            modelBuilder.Entity("Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,6 +32,10 @@ namespace Cental.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -52,7 +56,7 @@ namespace Cental.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Cental.Models.Blog", b =>
+            modelBuilder.Entity("Blog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,6 +87,10 @@ namespace Cental.Migrations
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Paragraph")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title1")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -100,7 +108,7 @@ namespace Cental.Migrations
                     b.ToTable("Blogs");
                 });
 
-            modelBuilder.Entity("Cental.Models.BlogsTags", b =>
+            modelBuilder.Entity("BlogsTags", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +137,7 @@ namespace Cental.Migrations
                     b.ToTable("BlogsTags");
                 });
 
-            modelBuilder.Entity("Cental.Models.Category", b =>
+            modelBuilder.Entity("Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,14 +153,17 @@ namespace Cental.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Cental.Models.Employee", b =>
+            modelBuilder.Entity("Employee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,7 +197,7 @@ namespace Cental.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Cental.Models.Service", b =>
+            modelBuilder.Entity("Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -217,7 +228,7 @@ namespace Cental.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("Cental.Models.Tag", b =>
+            modelBuilder.Entity("Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -233,25 +244,28 @@ namespace Cental.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Cental.Models.Blog", b =>
+            modelBuilder.Entity("Blog", b =>
                 {
-                    b.HasOne("Cental.Models.Author", "Author")
+                    b.HasOne("Author", "Author")
                         .WithMany("Blogs")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cental.Models.Category", "Category")
+                    b.HasOne("Category", "Category")
                         .WithMany("Blogs")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -259,15 +273,15 @@ namespace Cental.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Cental.Models.BlogsTags", b =>
+            modelBuilder.Entity("BlogsTags", b =>
                 {
-                    b.HasOne("Cental.Models.Blog", "Blog")
+                    b.HasOne("Blog", "Blog")
                         .WithMany("BlogsTags")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cental.Models.Tag", "Tag")
+                    b.HasOne("Tag", "Tag")
                         .WithMany("BlogsTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -278,22 +292,22 @@ namespace Cental.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Cental.Models.Author", b =>
+            modelBuilder.Entity("Author", b =>
                 {
                     b.Navigation("Blogs");
                 });
 
-            modelBuilder.Entity("Cental.Models.Blog", b =>
+            modelBuilder.Entity("Blog", b =>
                 {
                     b.Navigation("BlogsTags");
                 });
 
-            modelBuilder.Entity("Cental.Models.Category", b =>
+            modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("Blogs");
                 });
 
-            modelBuilder.Entity("Cental.Models.Tag", b =>
+            modelBuilder.Entity("Tag", b =>
                 {
                     b.Navigation("BlogsTags");
                 });

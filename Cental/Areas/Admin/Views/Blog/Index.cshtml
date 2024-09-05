@@ -1,4 +1,4 @@
-﻿@model List<Cental.Models.Blog>
+﻿@model List<Blog>
 
 <div class="container-fluid p-4">
     <table class="table table-hover">
@@ -25,10 +25,10 @@
                     <td>@blog.Description1</td>
                     <td>@blog.Title2</td>
                     <td>@blog.Description2</td>
-                    <td>@blog.Author?.Name</td>
+                    <td>@blog.Author?.Name @blog.Author?.Surname</td>
                     <td>@blog.Category?.Name</td>
                     <td>
-                        <img style="width:50px;height:50px;border-radius:50%;object-fit:cover" src="~/admin/images/blogs/@blog.Image" alt="pfp"
+                        <img style="width:50px;height:50px;border-radius:50%;object-fit:cover" src="~/admin/images/blogs/@blog.Image" alt="bg"
                              data-bs-toggle="modal" data-bs-target="#imageModal-@blog.Id" />
                     </td>
                     <td>
@@ -50,7 +50,7 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body m-auto" style="width:400px;height:400px;">
-                                <img style="width:100%;height:100%;object-fit:cover;" src="~/admin/images/blogs/@blog.Image" class="img-fluid" alt="pfp" />
+                                <img style="width:100%;height:100%;object-fit:cover;" src="~/admin/images/blogs/@blog.Image" class="img-fluid" alt="bg" />
                             </div>
                         </div>
                     </div>

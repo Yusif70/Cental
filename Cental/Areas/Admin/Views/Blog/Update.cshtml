@@ -1,27 +1,31 @@
-﻿@using Cental.Models
-@model Cental.Models.Blog
+﻿@model Blog
 
 <div class="container-fluid pt-4">
     <form method="post" enctype="multipart/form-data">
         <div class="form-floating mb-3">
-            <input type="text" asp-for="Title2" class="form-control border-1 border-secondary" placeholder="xxx">
+            <input type="text" asp-for="Title1" class="form-control border-1 border-secondary" placeholder="xxx">
             <label asp-for="Title1">Title1</label>
             <span asp-validation-for="Title1" class="text-danger-small text-danger" ></span>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" asp-for="Description2" class="form-control border-1 border-secondary" placeholder="xxx">
+            <input type="text" asp-for="Description1" class="form-control border-1 border-secondary" placeholder="xxx">
             <label asp-for="Description1">Description1</label>
             <span asp-validation-for="Description1" class="text-danger-small text-danger" ></span>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" asp-for="Title1" class="form-control border-1 border-secondary" placeholder="xxx">
+            <input type="text" asp-for="Title2" class="form-control border-1 border-secondary" placeholder="xxx">
             <label asp-for="Title2">Title2</label>
             <span asp-validation-for="Title2" class="text-danger-small text-danger" ></span>
         </div>
         <div class="form-floating mb-3">
-            <input type="text" asp-for="Description1" class="form-control border-1 border-secondary" placeholder="xxx">
+            <input type="text" asp-for="Description2" class="form-control border-1 border-secondary" placeholder="xxx">
             <label asp-for="Description2">Description2</label>
             <span asp-validation-for="Description2" class="text-danger-small text-danger" ></span>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" asp-for="Paragraph" class="form-control border-1 border-secondary" placeholder="xxx">
+            <label asp-for="Paragraph">Paragraph</label>
+            <span asp-validation-for="Paragraph" class="text-danger-small text-danger"></span>
         </div>
         <div class="mb-3">
             <label asp-for="File" class="form-label">
@@ -61,12 +65,9 @@
             <label asp-for="TagIds" class="form-label">Tags</label>
             <select asp-for="TagIds" multiple class="form-select" aria-label="Default select example">
                 <option disabled selected>Select Tags</option>
-                @if (ViewBag.Tags is not null)
+                @foreach (Tag tag in ViewBag.Tags)
                 {
-                    @foreach (Tag tag in ViewBag.Tags)
-                    {
-                        <option value="@tag.Id">@tag.Name</option>
-                    }
+                    <option value="@tag.Id">@tag.Name</option>
                 }
             </select>
             <span asp-validation-for="TagIds" class="text-danger-small text-danger"></span>

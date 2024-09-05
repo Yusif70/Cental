@@ -27,10 +27,18 @@ namespace Cental.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+
                 category.CreatedAt = DateTime.Now;
                 await _repository.AddAsync(category);
                 await _repository.SaveAsync();
                 return RedirectToAction("index");
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("Name","There is already one category with the same name");
+                }
             }
             return View();
         }
@@ -45,11 +53,18 @@ namespace Cental.Areas.Admin.Controllers
             Category updatedCategory = await _repository.GetAsync(id);
             if (ModelState.IsValid)
             {
+                try
+                {
                 updatedCategory.Name = category.Name;
                 updatedCategory.LastUpdatedAt = DateTime.Now;
-                _repository.Update(category);
+                _repository.Update(updatedCategory);
                 await _repository.SaveAsync();
                 return RedirectToAction("index");
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("Name","There is already one category with the same name");
+                }
             }
             return View();
         }

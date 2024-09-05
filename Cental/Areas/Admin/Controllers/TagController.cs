@@ -1,6 +1,8 @@
 ﻿using Cental.Models;
 using Cental.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cental.Areas.Admin.Controllers
@@ -27,10 +29,17 @@ namespace Cental.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                tag.CreatedAt = DateTime.Now;
-                await _repository.AddAsync(tag);
-                await _repository.SaveAsync();
-                return RedirectToAction("index");
+                try
+                {
+                    tag.CreatedAt = DateTime.Now;
+                    await _repository.AddAsync(tag);
+                    await _repository.SaveAsync();
+                    return RedirectToAction("index");
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("Name", "There is already one tag with the same name");
+                }
             }
             return View();
         }
@@ -45,11 +54,18 @@ namespace Cental.Areas.Admin.Controllers
             Tag updatedTag = await _repository.GetAsync(id);
             if (ModelState.IsValid)
             {
-                updatedTag.Name = tag.Name;
-                updatedTag.LastUpdatedAt = DateTime.Now;
-                _repository.Update(tag);
-                await _repository.SaveAsync();
-                return RedirectToAction("index");
+                try
+                {
+                    updatedTag.Name = tag.Name;
+                    updatedTag.LastUpdatedAt = DateTime.Now;
+                    _repository.Update(updatedTag);
+                    await _repository.SaveAsync();
+                    return RedirectToAction("index");
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("Name", "There is already one tag with the same name");
+                }
             }
             return View();
         }
