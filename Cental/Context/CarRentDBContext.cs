@@ -1,9 +1,10 @@
 ﻿using Cental.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cental.Context
 {
-    public class CarRentDBContext : DbContext
+    public class CarRentDBContext : IdentityDbContext<AppUser>
     {
         public CarRentDBContext(DbContextOptions<CarRentDBContext> options) : base(options) { }
         public DbSet<Service> Services { get; set; }

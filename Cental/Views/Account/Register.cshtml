@@ -1,0 +1,58 @@
+﻿@model Register
+<div class="container-fluid bg-breadcrumb">
+    <div class="container text-center py-5" style="max-width: 900px;">
+        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Register</h4>
+        <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">Pages</a></li>
+            <li class="breadcrumb-item active text-primary">Register</li>
+        </ol>
+    </div>
+</div>
+<!-- Header End -->
+
+<div class="row d-flex justify-content-center m-5">
+    <div class="col-md-7">
+        <div class="card border-0">
+            <div class="card-body ms-5 me-5">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text text-danger small"></div>
+                    <div class="form-floating mb-3">
+                        <input type="text" asp-for="Name" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="Name">Name</label>
+                        <span asp-validation-for="Name" class="text text-danger small"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" asp-for="Surname" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="Surname">Surname</label>
+                        <span asp-validation-for="Surname" class="text text-danger small"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" asp-for="Email" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="Email">Email</label>
+                        <span asp-validation-for="Email" class="text text-danger small"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" asp-for="Username" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="Username">Username</label>
+                        <span asp-validation-for="Username" class="text text-danger small"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" asp-for="Password" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="Password">Password</label>
+                        <span asp-validation-for="Password" class="text text-danger small"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" asp-for="ConfirmPassword" class="form-control border-0 border-bottom border-3 rounded-0 shadow-none" placeholder="xxx">
+                        <label asp-for="ConfirmPassword">Confirm Password</label>
+                        <span asp-validation-for="ConfirmPassword" class="text text-danger small"></span>
+                    </div>
+                    @* <div class="form-group"> *@
+                    @*     <label class="form-check-label"><input type="checkbox"> Remember me</label> *@
+                    @* </div> *@
+                    <button type="submit" class="btn btn-secondary w-100 p-3 mt-3 rounded-0">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
