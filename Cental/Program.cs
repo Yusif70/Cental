@@ -2,6 +2,8 @@ using Cental.Context;
 using Cental.Models;
 using Cental.Repositories;
 using Cental.Repositories.Interfaces;
+using Cental.Services;
+using Cental.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +18,8 @@ namespace Cental
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddScoped<IMailService, MailService>();
 
             builder.Services.AddDbContext<CarRentDBContext>(opt =>
             {
@@ -32,6 +35,7 @@ namespace Cental
                 opt.User.RequireUniqueEmail = true;
                 opt.Lockout.MaxFailedAccessAttempts = 3;
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                opt.SignIn.RequireConfirmedEmail = true;
             })
             .AddEntityFrameworkStores<CarRentDBContext>()
             .AddDefaultTokenProviders();
@@ -56,12 +60,12 @@ namespace Cental
             {
                 endpoints.MapAreaControllerRoute(
                     name: "admin",
-                    pattern: "admin/{controller=Home}/{action=Index}/{id?}",
+                    pattern: "admin/{controller=account}/{action=login}/{id?}",
                     areaName: "admin"
                 );
                 endpoints.MapControllerRoute(
                     name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"
+                    pattern: "{controller=home}/{action=Index}/{id?}"
                 );
             });
 

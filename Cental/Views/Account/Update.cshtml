@@ -1,17 +1,18 @@
-﻿@model RegisterModel
+﻿@model UpdateProfileModel
 
 <!-- Header Start -->
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Register</h4>
+        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">User Info</h4>
         <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
             <li class="breadcrumb-item"><a asp-action="index" asp-controller="home">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Pages</a></li>
-            <li class="breadcrumb-item active text-primary">Register</li>
+            <li class="breadcrumb-item active text-primary">User Info</li>
         </ol>
     </div>
 </div>
 <!-- Header End -->
+
 <div class="container py-5 h-100">
     <div class="row d-flex align-items-center justify-content-center h-100">
         <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
@@ -42,39 +43,9 @@
                     <label asp-for="Password">Password</label>
                     <span asp-validation-for="Password" class="text text-danger small"></span>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="xxx">
-                    <label asp-for="ConfirmPassword">Confirm password</label>
-                    <span asp-validation-for="ConfirmPassword" class="text text-danger small"></span>
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg btn-block w-100">Sign up</button>
-                <div class="divider d-flex align-items-center my-4">
-                    <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                </div>
-                <a class="btn btn-primary btn-lg btn-block w-100 mb-2" style="background-color: #3b5998" href="#!"
-                   role="button">
-                    <i class="fab fa-facebook-f me-2"></i>Continue with Facebook
-                </a>
-                <a class="btn btn-primary btn-lg btn-block w-100" style="background-color: #55acee" href="#!"
-                   role="button">
-                    <i class="fab fa-twitter me-2"></i>Continue with Twitter
-                </a>
-                <div class="text-center mt-3 pt-2">
-                    <p class="small fw-bold mt-2 pt-1 mb-0">
-                        Already have an account? <a asp-action="login" asp-controller="account"
-                                                    class="link-danger">Login</a>
-                    </p>
-                </div>
+                <button class="btn btn-primary btn-lg btn-block w-100">Save changes</button>
             </form>
         </div>
     </div>
 </div>
-<style>
-    .divider:after,
-    .divider:before {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: gray;
-    }
-</style>
+

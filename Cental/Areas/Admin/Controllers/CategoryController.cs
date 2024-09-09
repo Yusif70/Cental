@@ -1,11 +1,13 @@
 ﻿using Cental.Models;
 using Cental.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cental.Areas.Admin.Controllers
 {
     [Area(areaName: "Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class CategoryController : Controller
     {
         private readonly IRepository<Category> _repository;
@@ -15,7 +17,7 @@ namespace Cental.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            List<Category> categories = await _repository.GetAll().Include(c=>c.Blogs).ToListAsync();
+            List<Category> categories = await _repository.GetAll().Include(c => c.Blogs).ToListAsync();
             return View(categories);
         }
         public IActionResult Add()
@@ -30,14 +32,14 @@ namespace Cental.Areas.Admin.Controllers
                 try
                 {
 
-                category.CreatedAt = DateTime.Now;
-                await _repository.AddAsync(category);
-                await _repository.SaveAsync();
-                return RedirectToAction("index");
+                    category.CreatedAt = DateTime.Now;
+                    await _repository.AddAsync(category);
+                    await _repository.SaveAsync();
+                    return RedirectToAction("index");
                 }
                 catch (DbUpdateException)
                 {
-                    ModelState.AddModelError("Name","There is already one category with the same name");
+                    ModelState.AddModelError("Name", "There is already one category with the same name");
                 }
             }
             return View();
@@ -55,15 +57,15 @@ namespace Cental.Areas.Admin.Controllers
             {
                 try
                 {
-                updatedCategory.Name = category.Name;
-                updatedCategory.LastUpdatedAt = DateTime.Now;
-                _repository.Update(updatedCategory);
-                await _repository.SaveAsync();
-                return RedirectToAction("index");
+                    updatedCategory.Name = category.Name;
+                    updatedCategory.LastUpdatedAt = DateTime.Now;
+                    _repository.Update(updatedCategory);
+                    await _repository.SaveAsync();
+                    return RedirectToAction("index");
                 }
                 catch (DbUpdateException)
                 {
-                    ModelState.AddModelError("Name","There is already one category with the same name");
+                    ModelState.AddModelError("Name", "There is already one category with the same name");
                 }
             }
             return View();

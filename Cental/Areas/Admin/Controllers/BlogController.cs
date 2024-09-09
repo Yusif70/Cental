@@ -1,11 +1,13 @@
 ﻿using Cental.Models;
 using Cental.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cental.Areas.Admin.Controllers
 {
     [Area(areaName: "Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class BlogController : Controller
     {
         private readonly IRepository<Blog> _repository;
@@ -76,8 +78,8 @@ namespace Cental.Areas.Admin.Controllers
             ViewBag.Authors = await _authorRepository.GetAll().ToListAsync();
             ViewBag.Categories = await _categoryRepository.GetAll().ToListAsync();
             ViewBag.Tags = await _tagRepository.GetAll().ToListAsync();
-            Blog blog = await _blogRepository.GetAll().Include(b => b.BlogsTags)!.ThenInclude(bt => bt.Tag).FirstAsync(b => b.Id == id);
-            blog.TagIds = blog.BlogsTags!.Select(bt => bt.TagId).ToList();
+            Blog blog = await _blogRepository.GetAll().Include(b => b.BlogsTags).ThenInclude(bt => bt.Tag).FirstAsync(b => b.Id == id);
+            blog.TagIds = blog.BlogsTags.Select(bt => bt.TagId).ToList();
             return View(blog);
         }
         [HttpPost]
@@ -108,7 +110,7 @@ namespace Cental.Areas.Admin.Controllers
                 updatedBlog.CategoryId = blog.CategoryId;
                 foreach (int tagId in blog.TagIds)
                 {
-                    if (!updatedBlog.BlogsTags!.Any(bt => bt.TagId == tagId))
+                    if (!updatedBlog.BlogsTags.Any(bt => bt.TagId == tagId))
                     {
                         await _blogsTagsRepository.AddAsync(new BlogsTags()
                         {
@@ -117,7 +119,7 @@ namespace Cental.Areas.Admin.Controllers
                         });
                     }
                 }
-                foreach (BlogsTags item in updatedBlog.BlogsTags!)
+                foreach (BlogsTags item in updatedBlog.BlogsTags)
                 {
                     if (!blog.TagIds.Any(tagId => tagId == item.TagId))
                     {

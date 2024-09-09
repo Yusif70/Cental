@@ -4,7 +4,7 @@
     <div class="container text-center py-5" style="max-width: 900px;">
         <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">Our Blog & News</h4>
         <ol class="breadcrumb d-flex justify-content-center mb-0 wow fadeInDown" data-wow-delay="0.3s">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="index" asp-controller="home">Home</a></li>
             <li class="breadcrumb-item"><a href="#">Pages</a></li>
             <li class="breadcrumb-item active text-primary">Blog & News</li>
         </ol>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="about-author d-flex flex-column p-4 bg-light text-center">
                     <div class="bio mr-5">
-                        <img src="~/admin/images/authors/@Model.Author!.Image" alt="Image placeholder" class="img-fluid mb-4">
+                        <img src="~/admin/images/authors/@Model.Author.Image" alt="Image placeholder" class="img-fluid mb-4">
                     </div>
                     <div class="desc">
                         <h3>@Model.Author.Name @Model.Author.Surname</h3>
@@ -183,7 +183,7 @@
                                 <h3 class="heading"><a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id">@blog.Title1</a></h3>
                                 <div class="meta">
                                     <div><a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id"><span class="icon-calendar"></span>@blog.CreatedAt</a></div>
-                                    <div><a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id"><span class="icon-person"></span> @blog.Author!.Name @blog.Author.Surname</a></div>
+                                    <div><a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id"><span class="icon-person"></span> @blog.Author.Name @blog.Author.Surname</a></div>
                                     <div><a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id"><span class="icon-chat"></span> 19</a></div>
                                 </div>
                             </div>

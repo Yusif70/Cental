@@ -1,13 +1,13 @@
 ﻿using Cental.Models;
 using Cental.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cental.Areas.Admin.Controllers
 {
-    [Area(areaName:"Admin")]
+    [Area(areaName: "Admin")]
+    [Authorize(Roles = "SuperAdmin, Admin")]
     public class TagController : Controller
     {
         private readonly IRepository<Tag> _repository;
