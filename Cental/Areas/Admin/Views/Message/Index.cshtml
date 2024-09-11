@@ -1,0 +1,77 @@
+﻿@model List<Message>
+
+<div class="container-fluid p-4">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">User</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Subject</th>
+                <th scope="col">Body</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var message in Model)
+            {
+                <tr class="align-middle">
+                    <th scope="row">@message.Id</th>
+                    <td>@message.AppUser.UserName</td>
+                    <td>@message.Phone</td>
+                    <td>@message.Subject</td>
+                    <td>@message.Body</td>
+                    <td>
+                        <i class="fa-solid fa-eye"></i>
+                    </td>
+                    <td>
+                        <i style="cursor:pointer" class="fa-solid fa-trash"></i>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    const btns = document.querySelectorAll(".fa-trash")
+    btns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault()
+            var id = btn.parentElement.parentElement.firstElementChild.textContent
+            const url = `/admin/message/delete/${id}`
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(url, { method: 'DELETE' })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.statusCode == 200) {
+                                btn.parentElement.parentElement.remove()
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: data.message,
+                                    icon: "success"
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "Something went wrong!",
+                                });
+                            }
+                        })
+                }
+            });
+        })
+    })
+</script>

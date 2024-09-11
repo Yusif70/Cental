@@ -1,6 +1,5 @@
 ﻿using Cental.Models;
 using Cental.Models.Account;
-using Cental.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +19,11 @@ namespace Cental.Areas.Admin.Controllers
         }
         public IActionResult Login()
         {
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("index", "home");
         }
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
@@ -96,7 +99,7 @@ namespace Cental.Areas.Admin.Controllers
         //        EmailConfirmed = true
         //    };
         //    await _userManager.CreateAsync(user, "SuperAdmin123.");
-        //    await _userManager.AddToRolesAsync(user, ["SuperAdmin","Admin"]);
+        //    await _userManager.AddToRolesAsync(user, ["SuperAdmin", "Admin"]);
         //    return Json(user);
         //}
     }

@@ -72,8 +72,7 @@ namespace Cental.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Delete(int id)
         {
-            Category category = await _repository.GetAsync(id);
-            _repository.Remove(category);
+            await _repository.RemoveAsync(id);
             await _repository.SaveAsync();
             return RedirectToAction("index");
         }
