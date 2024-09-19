@@ -33,7 +33,7 @@
                                 <div class="blog-date">@blog.CreatedAt</div>
                             <div class="blog-comment my-3">
                                     <div class="small"><span class="fa fa-user text-primary"></span><span class="ms-2">@blog.Author!.Name @blog.Author.Surname</span></div>
-                                <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">6 Comments</span></div>
+                                    <div class="small"><span class="fa fa-comment-alt text-primary"></span><span class="ms-2">@blog.Comments.Count @(blog.Comments.Count != 1 ? "Comments" : "Comment")</span></div>
                             </div>
                                 <a asp-action="detail" asp-controller="blog" asp-route-id="@blog.Id" class="h4 d-block mb-3">@blog.Title1</a>
                                 <p class="mb-3">@blog.Description1</p>

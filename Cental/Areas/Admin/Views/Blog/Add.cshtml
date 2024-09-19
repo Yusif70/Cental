@@ -50,7 +50,7 @@
         <div class="mb-3">
             <label asp-for="CategoryId">Category</label>
             <select asp-for="CategoryId" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                <option disabled selected>Select categories</option>
+                <option disabled selected>Select category</option>
                 @if (ViewBag.Categories is not null)
                 {
                     @foreach (Category category in ViewBag.Categories)

@@ -28,7 +28,7 @@
                     <div class="tagcloud">
                         @foreach (Tag tag in ViewBag.Tags)
                         {
-                            <a style="@(Model.BlogsTags!.ToList().Any(bt=>bt.TagId == tag.Id) ? "padding:5px;border:solid 1px red;border-radius:3px;color:red" : "color:black" )" href="#" class="tag-cloud-link">@tag.Name</a>
+                            <a style="@(Model.BlogsTags.ToList().Any(bt=>bt.TagId == tag.Id) ? "padding:5px;border:solid 1px red;border-radius:3px;color:red" : "color:black" )" href="#" class="tag-cloud-link">@tag.Name</a>
                         }
                     </div>
                 </div>
@@ -42,117 +42,92 @@
                     </div>
                 </div>
                 <div class="pt-5 mt-5">
-                    <h3 class="mb-5">6 Comments</h3>
-                    <ul class="comment-list">
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="~/images/person_1.jpg"
-                                     alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                        </li>
-
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="~/images/person_1.jpg"
-                                     alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-
-                            <ul class="children">
+                    <h3 class="mb-5">Comments</h3>
+                    @if (Model.Comments.Count != 0)
+                    {
+                        <ul class="comment-list">
+                            @foreach (Comment comment in Model.Comments.Where(c => c.OpId is null))
+                            {
                                 <li class="comment">
                                     <div class="vcard bio">
-                                        <img src="~/images/person_1.jpg"
-                                             alt="Image placeholder">
+                                        <img class="rounded-circle" style="object-fit:cover" src="~/admin/images/authors/defaultPfp.png"
+                                             width="65" height="65" alt="Image placeholder">
                                     </div>
                                     <div class="comment-body">
-                                        <h3>John Doe</h3>
-                                        <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                        <p><a href="#" class="reply">Reply</a></p>
+                                        <h3>@comment.AppUser.UserName</h3>
+                                        <div class="meta">@comment.CreatedAt</div>
+                                        <p>@comment.Message</p>
+                                        <!-- Unique reply link -->
+                                        <p><a id="reply-@comment.Id" data-target="#replyModal-@comment.Id" data-toggle="modal" href="#replyModal-@comment.Id" class="reply">Reply</a></p>
                                     </div>
-
-
                                     <ul class="children">
-                                        <li class="comment">
-                                            <div class="vcard bio">
-                                                <img src="~/images/person_1.jpg"
-                                                     alt="Image placeholder">
-                                            </div>
-                                            <div class="comment-body">
-                                                <h3>John Doe</h3>
-                                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                                <p><a href="#" class="reply">Reply</a></p>
-                                            </div>
-
-                                            <ul class="children">
-                                                <li class="comment">
-                                                    <div class="vcard bio">
-                                                        <img src="~/images/person_1.jpg"
-                                                             alt="Image placeholder">
-                                                    </div>
-                                                    <div class="comment-body">
-                                                        <h3>John Doe</h3>
-                                                        <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                                        <p><a href="#" class="reply">Reply</a></p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        @foreach (Comment reply in Model.Comments.Where(r => r.OpId == comment.Id))
+                                        {
+                                            <li class="comment">
+                                                <div class="vcard bio">
+                                                    <img class="rounded-circle" width="65" height="65" style="object-fit:cover" src="~/admin/images/authors/defaultPfp.png"
+                                                         alt="Image placeholder">
+                                                </div>
+                                                <div class="comment-body">
+                                                    <h3>@reply.AppUser.UserName</h3>
+                                                    <div class="meta">@reply.CreatedAt</div>
+                                                    <p>@reply.Message</p>
+                                                    @* <p><a id="reply" data-target="#replyModal" data-toggle="modal" href="#replyModal" class="reply">Reply</a></p> *@
+                                                </div>
+                                            </li>
+                                        }
                                     </ul>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="~/images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                        </li>
-                    </ul>
+                                <!-- Unique Reply Modal -->
+                                <div id="replyModal-@comment.Id" class="modal fade" tabindex="-1" aria-labelledby="replyModalLabel-@comment.Id" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="replyModalLabel-@comment.Id">Reply</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="d-flex flex-start w-100">
+                                                    <img class="rounded-circle shadow-1-strong me-3" style="object-fit:cover"
+                                                         src="~/admin/images/authors/defaultPfp.png" alt="avatar" width="65"
+                                                         height="65" />
+                                                    <div data-mdb-input-init class="form-outline w-100">
+                                                        <textarea class="form-control" id="textAreaExample-@comment.Id"
+                                                                  style="background: #fff;"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="float-end mt-2 pt-1">
+                                                    <!-- Post reply button for this comment -->
+                                                    <button data-opId="@comment.Id" id="postBtn-@comment.Id" type="button" class="btn btn-primary btn-sm">Post reply</button>
+                                                    <button id="cancelBtn-@comment.Id" type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---->
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>There are no comments</p>
+                    }
                     <!-- END comment-list -->
+                    <!-- Leave a comment start -->
                     <div class="comment-form-wrap pt-5">
                         <h3 class="mb-5">Leave a comment</h3>
-                        <form action="#" class="p-5 bg-light">
-                            <div class="form-group">
-                                <label for="name">Name *</label>
-                                <input type="text" class="form-control" id="name">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" class="form-control" id="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" class="form-control" id="website">
-                            </div>
-
+                        <form id="submitForm" class="p-5 bg-light">
                             <div class="form-group">
                                 <label for="message">Message</label>
                                 <textarea name="" id="message" cols="30" rows="10" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                                <input disabled id="submitInput" type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
                             </div>
                         </form>
                     </div>
+                    <!-- Leave a comment end -->
                 </div>
             </div> <!-- .col-md-8 -->
             <div class="col-md-4 sidebar ftco-animate">
@@ -349,3 +324,115 @@
             font-style: italic;
         }
 </style>
+
+<script>
+    const form = document.querySelector('#submitForm')
+    const message = document.querySelector('#message')
+    const submitInput = document.querySelector('#submitInput');
+    message.addEventListener('input', () => {
+        if (message.value.trim() == '') {
+            submitInput.setAttribute('disabled', true)
+        }
+        else {
+            submitInput.removeAttribute('disabled')
+        }
+    })
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const url = '/comment/post'
+        const data = { message: message.value, blogId: @Model.Id }
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.statusCode == 201) {
+                    Swal.fire({
+                        title: "Success",
+                        text: data.message,
+                        icon: "success"
+                    });
+                    message.value = ''
+                }
+                else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: data.message,
+                    });
+                    console.log(data.errors)
+                }
+            })
+    })
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const replyLinks = document.querySelectorAll('.reply')
+
+        replyLinks.forEach(function (replyLink) {
+            replyLink.addEventListener('click', function (event) {
+                event.preventDefault()
+
+                const targetModalId = replyLink.getAttribute("data-target");
+
+                var replyModal = new bootstrap.Modal(document.querySelector(targetModalId));
+                replyModal.show()
+            });
+        });
+
+        const postButtons = document.querySelectorAll("[id^='postBtn-']");
+        postButtons.forEach(function (postBtn) {
+            const commentId = postBtn.getAttribute('data-opId')
+            const textArea = document.getElementById(`textAreaExample-${commentId}`)
+            textArea.addEventListener('input', () => {
+                if (textArea.value.trim() == '') {
+                    postBtn.classList.add('disabled')
+                }
+                else {
+                    postBtn.classList.remove('disabled')
+                }
+            })
+            postBtn.addEventListener('click', (e) => {
+                const replyMessage = textArea.value
+                e.preventDefault()
+                const url = '/comment/reply'
+                const data = {
+                    message: replyMessage,
+                    opId: postBtn.getAttribute('data-opId'),
+                    blogId: @Model.Id
+                                            }
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.statusCode == 201) {
+                            Swal.fire({
+                                title: "Success",
+                                text: data.message,
+                                icon: "success"
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: data.message,
+                            });
+                            console.log(data.errors)
+                        }
+                        var replyModal = bootstrap.Modal.getInstance(document.getElementById(`replyModal-${commentId}`))
+                        replyModal.hide()
+                        textArea.value = '';
+                    })
+            })
+        });
+    });
+</script>

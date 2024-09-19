@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cental.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    [Migration("20240910152919_initial")]
+    [Migration("20240912124404_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -237,6 +237,40 @@ namespace Cental.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Cental.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BlogId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Cental.Models.Employee", b =>
@@ -537,6 +571,25 @@ namespace Cental.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("Cental.Models.Comment", b =>
+                {
+                    b.HasOne("Cental.Models.AppUser", "AppUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cental.Models.Blog", "Blog")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Blog");
+                });
+
             modelBuilder.Entity("Cental.Models.Message", b =>
                 {
                     b.HasOne("Cental.Models.AppUser", "AppUser")
@@ -599,6 +652,8 @@ namespace Cental.Migrations
 
             modelBuilder.Entity("Cental.Models.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Messages");
                 });
 
@@ -610,6 +665,8 @@ namespace Cental.Migrations
             modelBuilder.Entity("Cental.Models.Blog", b =>
                 {
                     b.Navigation("BlogsTags");
+
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("Cental.Models.Category", b =>

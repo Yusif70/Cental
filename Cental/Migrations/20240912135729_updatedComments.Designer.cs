@@ -4,6 +4,7 @@ using Cental.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cental.Migrations
 {
     [DbContext(typeof(CarRentDBContext))]
-    partial class CarRentDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240912135729_updatedComments")]
+    partial class updatedComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,21 +263,11 @@ namespace Cental.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OpId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ReplyId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("ReplyId")
-                        .IsUnique()
-                        .HasFilter("[ReplyId] IS NOT NULL");
 
                     b.ToTable("Comments");
                 });
@@ -589,15 +582,9 @@ namespace Cental.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Cental.Models.Comment", "Reply")
-                        .WithOne("Op")
-                        .HasForeignKey("Cental.Models.Comment", "ReplyId");
-
                     b.Navigation("AppUser");
 
                     b.Navigation("Blog");
-
-                    b.Navigation("Reply");
                 });
 
             modelBuilder.Entity("Cental.Models.Message", b =>
@@ -682,11 +669,6 @@ namespace Cental.Migrations
             modelBuilder.Entity("Cental.Models.Category", b =>
                 {
                     b.Navigation("Blogs");
-                });
-
-            modelBuilder.Entity("Cental.Models.Comment", b =>
-                {
-                    b.Navigation("Op");
                 });
 
             modelBuilder.Entity("Cental.Models.Tag", b =>

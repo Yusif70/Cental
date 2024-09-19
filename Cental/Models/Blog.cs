@@ -19,5 +19,6 @@ namespace Cental.Models
         public List<BlogsTags>? BlogsTags { get; set; }
         [NotMapped]
         public required List<int> TagIds { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }

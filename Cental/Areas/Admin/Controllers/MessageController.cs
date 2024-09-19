@@ -27,11 +27,11 @@ namespace Cental.Areas.Admin.Controllers
             {
                 await _repository.RemoveAsync(id);
                 await _repository.SaveAsync();
-                return Json(new { statusCode = 200, message = "Message is deleted successfully!" });
+                return Json(new { statusCode = 200, message = "Message deleted successfully!" });
             }
             catch
             {
-                return Json(new { statusCode = 404, message = "Message is not found" });
+                return Json(new { statusCode = 404, message = "Message not found" });
             }
         }
     }

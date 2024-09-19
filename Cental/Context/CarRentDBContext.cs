@@ -15,6 +15,7 @@ namespace Cental.Context
         public DbSet<Tag> Tags { get; set; }
         public DbSet<BlogsTags> BlogsTags { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,8 +24,12 @@ namespace Cental.Context
                 .HasIndex(t => t.Name)
                 .IsUnique(true);
             modelBuilder.Entity<Category>()
-                .HasIndex(c=>c.Name)
+                .HasIndex(c => c.Name)
                 .IsUnique(true);
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.Reply)
+                .WithOne(c => c.Op)
+                .HasForeignKey<Comment>(c => c.ReplyId);
         }
     }
 }

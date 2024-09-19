@@ -21,9 +21,10 @@
                     <label asp-for="UsernameOrEmail">Username or email</label>
                     <span asp-validation-for="UsernameOrEmail" class="text text-danger small"></span>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" asp-for="Password" class="form-control" placeholder="xxx">
+                <div class="form-floating mb-3 position-relative">
+                    <input type="password" asp-for="Password" class="form-control" id="passwordInput" placeholder="xxx">
                     <label asp-for="Password">Password</label>
+                    <i id="eye" class="fa-solid fa-eye position-absolute" style="right:2%;top:52%;transform: translate(-50%,-50%);"></i>
                     <span asp-validation-for="Password" class="text text-danger small"></span>
                 </div>
                 <div class="d-flex justify-content-around align-items-center mb-4">
@@ -65,3 +66,18 @@
         background: gray;
     }
 </style>
+
+<script>
+    const eye = document.querySelector('#eye')
+    const passwordInput = document.querySelector('#passwordInput')
+    eye.addEventListener('click', () => {
+        if (passwordInput.getAttribute('type') == 'password') {
+            passwordInput.setAttribute('type', 'text')
+            eye.classList.replace('fa-eye', 'fa-eye-slash')
+        }
+        else {
+            passwordInput.setAttribute('type', 'password')
+            eye.classList.replace('fa-eye-slash', 'fa-eye')
+        }
+    })
+</script>

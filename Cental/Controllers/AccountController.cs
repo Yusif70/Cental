@@ -123,7 +123,7 @@ namespace Cental.Controllers
                     user = await _userManager.FindByEmailAsync(model.UsernameOrEmail);
                     if (user is null || !await _userManager.IsInRoleAsync(user, "User"))
                     {
-                        ModelState.AddModelError("UsernameOrEmail", "User is not found");
+                        ModelState.AddModelError("UsernameOrEmail", "User not found");
                         return View(model);
                     }
                 }
